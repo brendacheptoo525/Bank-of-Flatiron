@@ -1,12 +1,11 @@
-// App.js
-
 import React, { useState } from 'react';
 import './App.css';
-import TransactionTable from './TransactionTable';
-import TransactionForm from './TransactionForm';
-import SearchBar from './SearchBar';
+import TransactionTable from './TransactionTable'; // Importing TransactionTable component
+import TransactionForm from './TransactionForm'; // Importing TransactionForm component
+import SearchBar from './SearchBar'; // Importing SearchBar component
 
 const App = () => {
+  // Initial transactions data
   const initialTransactions = [
     {
       "id": 1,
@@ -108,6 +107,7 @@ const App = () => {
     }
   ];
 
+  // Initial categories
   const initialCategories = [
     "Income",
     "Food",
@@ -118,18 +118,25 @@ const App = () => {
     "Housing"
   ];
 
+  // State to manage transactions and search term
   const [transactions, setTransactions] = useState(initialTransactions);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Function to add a new transaction
   const addTransaction = (newTransaction) => {
+    // Generating a unique id for the new transaction
     newTransaction.id = Math.max(...transactions.map(transaction => transaction.id), 0) + 1;
+    // Updating transactions state with the new transaction
     setTransactions([...transactions, newTransaction]);
   };
 
+  // Function to handle search term changes
   const handleSearch = (term) => {
+    // Updating search term state
     setSearchTerm(term);
   };
 
+  // Filtering transactions based on search term
   const filteredTransactions = transactions.filter(transaction =>
     transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     transaction.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -137,13 +144,17 @@ const App = () => {
 
   return (
     <div className="app-container">
+      {/* Application heading */}
       <h1 className="heading">The Royal Bank of Flatiron</h1>
+      {/* Search bar component */}
       <div className="search-bar">
         <SearchBar onSearch={handleSearch} />
       </div>
+      {/* Transaction form component */}
       <div className="transaction-form">
         <TransactionForm onAddTransaction={addTransaction} categories={initialCategories} />
       </div>
+      {/* Transaction table component */}
       <div className="transactions-table">
         <TransactionTable transactions={filteredTransactions} />
       </div>
